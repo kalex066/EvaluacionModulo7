@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Crear Categoria{% endblock %}
+
+{% block content %}
+<h2 class="mt-4 mb-4">{% if form.instance.pk %}Editar{% else %}Agregar{% endif %}Categoria</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.nombre.label_tag }}
+        {{ form.nombre }}
+        {% if form.nombre.errors %}
+            <div class="text-danger">{{ form.nombre.errors }}</div>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'lista_categorias' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

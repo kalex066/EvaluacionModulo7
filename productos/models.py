@@ -6,9 +6,10 @@ class Categoria(models.Model):
         return f"El nombre de la categoria es {self.nombre}"
 
 class Etiqueta(models.Model):
-    nombre = models.CharField(max_length = 100)
+    nombre = models.CharField(max_length=50, unique=True)
+
     def __str__(self):
-        return f"La etiqueta correspondiente es {self.nombre}"
+        return f"El nombre de la etiqueta es {self.nombre}"
     
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Producto, DetalleProducto
-from .formularios import ProductoForm, DetalleProductoForm
+from .models import Producto, DetalleProducto, Categoria
+from .formularios import ProductoForm, DetalleProductoForm, CategoriaForm
+from django.contrib import messages
 
 #Vista para la pagina de Bienvenida
 def index(request):
@@ -81,3 +82,42 @@ def eliminar_producto(request, id):
     })
 
 
+# CATEGORIAS CRUD
+def lista_categorias(request):
+    categorias = Categoria.objects.all()
+    return render(request, 'categorias/lista_categorias.html', {
+        'categorias': categorias
+    })
+
+def crear_categoria(request):
+    form = CategoriaForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Categoría creada exitosamente.')
+        return redirect('lista_categorias')
+    return render(request, 'form_categoria.html', {
+        'form': form,
+        'titulo': 'Crear categoría'
+    })
+
+def editar_categoria(request, id):
+    categoria = get_object_or_404(Categoria, pk=id)
+    form = CategoriaForm(request.POST or None, instance=categoria)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Categoría actualizada correctamente.')
+        return redirect('lista_categorias')
+    return render(request, 'form_categoria.html', {
+        'form': form,
+        'titulo': 'Editar categoría'
+    })
+
+def eliminar_categoria(request, id):
+    categoria = get_object_or_404(Categoria, pk=id)
+    if request.method == 'POST':
+        categoria.delete()
+        messages.success(request, 'Categoría eliminada correctamente.')
+        return redirect('lista_categorias')
+    return render(request, 'eliminar_categoria.html', {
+        'categoria': categoria
+    })
