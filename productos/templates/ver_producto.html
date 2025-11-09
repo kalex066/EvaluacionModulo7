@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Detalle del Producto{% endblock %}
+
+{% block content %}
+<h2 class="mt-4 mb-4">{{ producto.nombre }}</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Descripción</h5>
+        <p class="card-text">{{ producto.descripcion }}</p>
+
+        <h5 class="card-title">Precio</h5>
+        <p class="card-text">${{ producto.precio }}</p>
+
+        <h5 class="card-title">Categoría</h5>
+        <p class="card-text">{{ producto.categoria }}</p>
+
+        {% if etiquetas %}
+        <h5 class="card-title">Etiquetas</h5>
+        <ul>
+            {% for etiqueta in etiquetas %}
+            <li>{{ etiqueta.nombre }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if detalle %}
+        <h5 class="card-title"> Detalles </h5>
+        <p><strong>Peso:</strong> {{ detalle.peso }}</p>
+        <p><strong>Color:</strong> {{ detalle.color }} kg</p>
+        {% endif %}
+    </div>
+</div>
+
+<a href="{% url 'lista_productos' %}" class="btn btn-secondary">Volver al listado</a>
+{% endblock %}
