@@ -27,9 +27,9 @@
             <td>{{ producto.precio }}</td>
             <td>{{ producto.categoria }}</td>
             <td>
-                <a href="{% url 'crear_producto' %}" class="btn btn-warning">Editar</a>
-                <a href="{% url 'eliminar_producto' %}" class="btn btn-danger">Eliminar</a>
-                <a href="{% url 'ver_producto' %}" class="btn btn-primary">Detalle</a>
+                <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning">Editar</a>
+                <a href="{% url 'eliminar_producto' producto.id %}" class="btn btn-danger">Eliminar</a>
+                <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-primary">Detalle</a>
             </td>
         </tr>
         {% empty %}

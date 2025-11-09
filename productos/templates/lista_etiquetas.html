@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}Categorías{% endblock %}
+{% block title %}Listado de Etiquetas{% endblock %}
 
 {% block content %}
-<h2 class="mt-4 mb-4">Listado de Categorías</h2>
+<h2 class="mt-4 mb-4">Listado de Etiquetas</h2>
 
 <div class="mb-3 text-end">
-    <a href="{% url 'crear_categoria' %}" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i> Nueva categoría
+    <a href="{% url 'crear_etiqueta' %}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Nueva etiqueta
     </a>
 </div>
-
 <table class="table table-bordered table-hover">
     <thead class="table-light">
         <tr>
@@ -19,18 +18,18 @@
         </tr>
     </thead>
     <tbody>
-        {% for categoria in categorias %}
+        {% for etiqueta in etiquetas %}
         <tr>
-            <td>{{ categoria.id }}</td>
-            <td>{{ categoria.nombre }}</td>
+            <td>{{ etiqueta.id }}</td>
+            <td>{{ etiqueta.nombre }}</td>
             <td>
-                <a href="{% url 'editar_categoria' categoria.id %}" class="btn btn-sm btn-primary">Editar</a>
-                <a href="{% url 'eliminar_categoria' categoria.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                <a href="{% url 'editar_etiqueta' etiqueta.id %}" class="btn btn-sm btn-primary">Editar</a>
+                <a href="{% url 'eliminar_etiqueta' etiqueta.id %}" class="btn btn-sm btn-danger">Eliminar</a>
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="3" class="text-center">No hay categorías registradas.</td>
+            <td colspan="3" class="text-center">No hay etiquetas registradas.</td>
         </tr>
         {% endfor %}
     </tbody>
