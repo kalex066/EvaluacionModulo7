@@ -21,6 +21,7 @@ def lista_productos(request):
 
 # CRUD DE PRODUCTOS
 @login_required
+@login_required
 def crear_producto(request):
     if request.method == 'POST':
         producto_form = ProductoForm(request.POST)
@@ -34,13 +35,13 @@ def crear_producto(request):
     else:
         producto_form = ProductoForm()
         detalle_form = DetalleProductoForm()
-    
+
     return render(request, 'crear_producto.html', {
         'producto_form': producto_form,
-        'detalle_form': detalle_form
+        'detalle_form': detalle_form,
+        'producto': None
     })
 #Update producto
-@login_required
 def editar_producto(request, id):
     producto = get_object_or_404(Producto, pk=id)
     try:
@@ -63,7 +64,8 @@ def editar_producto(request, id):
 
     return render(request, 'crear_producto.html', {
         'producto_form': producto_form,
-        'detalle_form': detalle_form
+        'detalle_form': detalle_form,
+        'producto': producto
     })
 
 def detalle_producto(request, id):

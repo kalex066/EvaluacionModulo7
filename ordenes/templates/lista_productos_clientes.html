@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Productos disponibles</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Categoría</th>
+          <th>Etiquetas</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for producto in page_obj %}
+        <tr>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.descripcion }}</td>
+          <td>{{ producto.categoria.nombre }}</td>
+          <td>
+            {% for etiqueta in producto.etiquetas.all %}
+              <span class="badge bg-secondary">{{ etiqueta.nombre }}</span>
+            {% empty %}
+              <span class="text-muted">Sin etiquetas</span>
+            {% endfor %}
+          </td>
+          <td>{{ producto.cantidad }}</td>
+          <td>${{ producto.precio }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- Paginación -->
+  <nav aria-label="Paginación de productos">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+      {% endif %}
+
+      <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'ordenes:crear_orden_listado' %}" class="btn btn-success">Crear nueva orden</a>
+  </div>
+</div>
+{% endblock %}

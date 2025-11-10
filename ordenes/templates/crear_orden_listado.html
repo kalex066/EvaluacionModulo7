@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Crear nueva orden</h2>
+  <form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-6">
+      {{ form.producto.label_tag }}
+      {{ form.producto }}
+    </div>
+    <div class="col-md-4">
+      {{ form.cantidad.label_tag }}
+      {{ form.cantidad }}
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100">Agregar</button>
+    </div>
+  </form>
+  {% if carrito %}
+  <h4 class="mt-5">Productos seleccionados</h4>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in carrito %}
+      <tr>
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.cantidad }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="text-end">
+    <a href="{% url 'ordenes:guardar_orden' %}" class="btn btn-success">Guardar orden</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

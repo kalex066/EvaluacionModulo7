@@ -4,7 +4,7 @@ from .models import Producto,DetalleProducto, Categoria, Etiqueta
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['nombre', 'descripcion', 'precio', 'categoria', 'etiquetas']
+        fields = ['nombre', 'descripcion', 'cantidad', 'precio', 'categoria', 'etiquetas']
         widgets = {
             'categoria': forms.Select(),
             'etiquetas': forms.CheckboxSelectMultiple()
