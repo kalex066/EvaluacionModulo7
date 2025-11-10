@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'productos'
+    'productos',
+    'usuarios'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,8 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Authentication settings
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = '/productos/'

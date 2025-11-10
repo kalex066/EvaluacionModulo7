@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto, DetalleProducto, Categoria, Etiqueta
 from .formularios import ProductoForm, DetalleProductoForm, CategoriaForm, EtiquetaForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+
 
 #Vista para la pagina de Bienvenida
 def index(request):
@@ -10,11 +13,14 @@ def index(request):
 #Vista para mostrar la lista de productos
 
 def lista_productos(request):
-    productos = Producto.objects.all() 
-    return render(request, 'lista_productos.html', {"productos": productos})
+    productos = Producto.objects.all().order_by('id')
+    paginator = Paginator(productos, 5)  # 5 productos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'lista_productos.html', {'page_obj': page_obj})
 
 # CRUD DE PRODUCTOS
-
+@login_required
 def crear_producto(request):
     if request.method == 'POST':
         producto_form = ProductoForm(request.POST)
@@ -34,6 +40,7 @@ def crear_producto(request):
         'detalle_form': detalle_form
     })
 #Update producto
+@login_required
 def editar_producto(request, id):
     producto = get_object_or_404(Producto, pk=id)
     try:
@@ -70,6 +77,7 @@ def detalle_producto(request, id):
         'etiquetas': etiquetas
     })
 
+@login_required
 def eliminar_producto(request, id):
     producto = get_object_or_404(Producto, pk=id)
 
@@ -84,11 +92,13 @@ def eliminar_producto(request, id):
 
 # CATEGORIAS CRUD
 def lista_categorias(request):
-    categorias = Categoria.objects.all()
-    return render(request, 'lista_categorias.html', {
-        'categorias': categorias
-    })
+    categorias = Categoria.objects.all().order_by('id')
+    paginator = Paginator(categorias, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'lista_categorias.html', {'page_obj': page_obj})
 
+@login_required
 def crear_categorias(request):
     form = CategoriaForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -100,6 +110,7 @@ def crear_categorias(request):
         'titulo': 'Crear categoría'
     })
 
+@login_required
 def editar_categoria(request, id):
     categoria = get_object_or_404(Categoria, pk=id)
     form = CategoriaForm(request.POST or None, instance=categoria)
@@ -112,6 +123,7 @@ def editar_categoria(request, id):
         'titulo': 'Editar categoría'
     })
 
+@login_required
 def eliminar_categoria(request, id):
     categoria = get_object_or_404(Categoria, pk=id)
     if request.method == 'POST':
@@ -124,11 +136,14 @@ def eliminar_categoria(request, id):
 
 #ETIQUETAS CRUD
 def lista_etiquetas(request):
-    etiquetas = Etiqueta.objects.all()
-    return render(request, 'lista_etiquetas.html', {
-        'etiquetas': etiquetas
-    })
+    etiquetas = Etiqueta.objects.all().order_by('id')
+    paginator = Paginator(etiquetas, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'lista_etiquetas.html', {'page_obj': page_obj})
 
+
+@login_required
 def crear_etiqueta(request):
     form = EtiquetaForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -140,6 +155,7 @@ def crear_etiqueta(request):
         'titulo': 'Crear etiqueta'
     })
 
+@login_required
 def editar_etiqueta(request, id):
     etiqueta = get_object_or_404(Etiqueta, pk=id)
     form = EtiquetaForm(request.POST or None, instance=etiqueta)
@@ -152,6 +168,7 @@ def editar_etiqueta(request, id):
         'titulo': 'Editar etiqueta'
     })
 
+@login_required
 def eliminar_etiqueta(request, id):
     etiqueta = get_object_or_404(Etiqueta, pk=id)
     if request.method == 'POST':
